@@ -1,0 +1,23 @@
+name: Install Docker
+
+on: [push]
+
+jobs:
+  download-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reposetory klonen
+        uses: actions/checkout@v3
+
+      - name: Docker Installations-Skript erstellen
+        run: |
+          echo '#!/bin/bash' > install-docker.sh
+          echo 'sudo apt update' >> install-docker.sh
+          echo 'sudo apt install -y docker.io' >> install-docker.sh
+          chmod +x install-docker.sh 
+
+      - name: Installations-Skript als artfakt speichern
+        uses: actions/upload-artifact@v3
+        with: 
+          name: docker-install-script
+          path: install-docker.sh  
